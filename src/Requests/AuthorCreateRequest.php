@@ -13,7 +13,7 @@ class AuthorCreateRequest extends BaseRequest
         minMessage: 'Firstname must be at least {{ limit }} characters long',
         maxMessage: 'Firstname cannot be longer than {{ limit }} characters',
     )]
-    protected $firstname;
+    protected string $firstname;
     
     #[Assert\NotBlank([])]
     #[Assert\Length(
@@ -22,7 +22,7 @@ class AuthorCreateRequest extends BaseRequest
         minMessage: 'Lastname must be at least {{ limit }} characters long',
         maxMessage: 'Lastname cannot be longer than {{ limit }} characters',
     )]
-    protected $lastname;
+    protected string $lastname;
 
     #[Assert\NotBlank([])]
     #[Assert\Length(
@@ -31,6 +31,6 @@ class AuthorCreateRequest extends BaseRequest
         minMessage: 'Secondaryname must be at least {{ limit }} characters long',
         maxMessage: 'Secondaryname cannot be longer than {{ limit }} characters',
     )]
-    protected $secondaryname;
+    protected string $secondaryname;
 }
 

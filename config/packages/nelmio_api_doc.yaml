@@ -2,7 +2,7 @@ nelmio_api_doc:
     documentation:
         info:
             title: Book API
-            description: Checkbox test!
+            description: Checkbox test task
             version: 1.0.0
     areas:
         path_patterns:

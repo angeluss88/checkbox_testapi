@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Response\ValidationErrorResponse;
 
 abstract class BaseRequest
 {
@@ -28,19 +29,24 @@ abstract class BaseRequest
     {
         $errors = $this->validator->validate($this);
 
-        $messages = ['message' => 'validation_failed', 'errors' => []];
-
+        $messages = [];
         /** @var \Symfony\Component\Validator\ConstraintViolation  */
         foreach ($errors as $message) {
-            $messages['errors'][] = [
+            $messages[] = [
                 'property' => $message->getPropertyPath(),
                 'value' => $message->getInvalidValue(),
                 'message' => $message->getMessage(),
             ];
         }
 
-        if (count($messages['errors']) > 0) {
-            $response = new JsonResponse($messages);
+        /** @var ValidationErrorResponse $validationErrorResponse */
+        $validationErrorResponse = new ValidationErrorResponse(
+            'validation_failed',
+            $messages
+        );
+
+        if (count($validationErrorResponse->errors) > 0) {
+            $response = new JsonResponse($validationErrorResponse, 400);
             $response->send();
 
             return false;

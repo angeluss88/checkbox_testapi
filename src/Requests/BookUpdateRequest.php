@@ -15,7 +15,6 @@ class BookUpdateRequest extends BaseRequest
     protected $name;
     
     #[Assert\Length(
-        min: 2,
         max: 255,
         minMessage: 'Short_description must be at least {{ limit }} characters long',
         maxMessage: 'Short_description cannot be longer than {{ limit }} characters',

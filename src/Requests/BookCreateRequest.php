@@ -13,15 +13,14 @@ class BookCreateRequest extends BaseRequest
         minMessage: 'Name must be at least {{ limit }} characters long',
         maxMessage: 'Name cannot be longer than {{ limit }} characters',
     )]
-    protected $name;
+    protected string $name;
     
     #[Assert\Length(
-        min: 2,
         max: 255,
         minMessage: 'Short_description name must be at least {{ limit }} characters long',
         maxMessage: 'Short_description first name cannot be longer than {{ limit }} characters',
     )]
-    protected $short_description;
+    protected string $short_description;
 
     #[Assert\NotBlank([])]
     #[Assert\File(
@@ -36,13 +35,13 @@ class BookCreateRequest extends BaseRequest
         pattern: '/^(?:19|20)\d{2}$/',
         message: 'Date_published should be a valid year',
     )]
-    protected $date_published;
+    protected string $date_published;
 
     #[Assert\NotBlank([])]
     #[Assert\Regex(
         pattern: '/^\s*-?\d+(?:,-?\d+)*\s*$/',
         message: 'Authors should be a list of ids like 1,2,3',
     )]
-    protected $authors;
+    protected string $authors = '1,2,3';
 }
 

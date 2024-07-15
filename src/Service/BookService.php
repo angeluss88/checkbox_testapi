@@ -56,9 +56,9 @@ class BookService extends Service
     public function update(int $id, BookUpdateRequest $request): ?Book
     {
         $book = $this->entityManager->getRepository(Book::class)->find($id);
-    
+
         if ($book) {
-            $book->setName($request->request->get('name'), $book->getName());
+            $book->setName($request->request->get('name', $book->getName()));
             $book->setShortDescription(
                 $request->request->get('short_description', $book->getShortDescription())
             );
