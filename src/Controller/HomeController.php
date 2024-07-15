@@ -10,7 +10,7 @@ class HomeController
     public function main(): Response
     {
         return new Response(
-            'Welcome to Checkbox_test_API'
+            'Welcome to Checkbox_test_API. <BR />Go to <a href="https://localhost/api/doc">API Docs</a>'
         );
     }
 }
