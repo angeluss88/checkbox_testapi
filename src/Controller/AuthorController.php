@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Author;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use App\Requests\AuthorCreateRequest;
 
 #[Route('api/authors')]
 class AuthorController extends AbstractController
@@ -64,12 +65,12 @@ class AuthorController extends AbstractController
     }
 
     #[Route('/', methods: ['POST'])]
-    public function create(EntityManagerInterface $entityManager, Request $request): JsonResponse
+    public function create(EntityManagerInterface $entityManager, AuthorCreateRequest $request): JsonResponse
     {
         $author = new Author();
         $author->setFirstname($request->request->get('firstname'));
         $author->setLastname($request->request->get('lastname'));
-        $author->setSecondaryname($request->request->get('secondaryname'));
+        $author->setSecondaryname($request->request->get('secondaryname', ''));
     
         $entityManager->persist($author);
         $entityManager->flush();

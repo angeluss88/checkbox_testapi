@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use App\Service\FileUploader;
 use Symfony\Component\Filesystem\Filesystem;
+use App\Requests\BookCreateRequest;
+use App\Requests\BookUpdateRequest;
 
 #[Route('api/books')]
 class BookController extends AbstractController
@@ -145,13 +147,13 @@ class BookController extends AbstractController
     #[Route('/', methods: ['POST'])]
     public function create(
         EntityManagerInterface $entityManager, 
-        Request $request, 
+        BookCreateRequest $request, 
         FileUploader $fileUploader
     ): JsonResponse
     {
         $book = new Book();
         $book->setName($request->request->get('name'));
-        $book->setShortDescription($request->request->get('description', ''));
+        $book->setShortDescription($request->request->get('short_description', ''));
 
         $image = $request->files->get('image');
         if($image) {
@@ -159,7 +161,7 @@ class BookController extends AbstractController
             $book->setImage($fileName);
         }
 
-        $book->setDatePublished($request->request->get('datePublished'));
+        $book->setDatePublished($request->request->get('date_published'));
 
         $authorIds = array_map('intval', explode(',', $request->request->get('authors')));
         $authors = [];
@@ -195,7 +197,7 @@ class BookController extends AbstractController
     public function update(
         int $id, 
         EntityManagerInterface $entityManager, 
-        Request $request, 
+        BookUpdateRequest $request, 
         FileUploader $fileUploader,
     ): JsonResponse
     {
@@ -204,8 +206,8 @@ class BookController extends AbstractController
         if (!$book) {
             return $this->json('No book found for id ' . $id, 404);
         }
-        $book->setName($request->request->get('name'));
-        $book->setShortDescription($request->request->get('description', ''));
+        $book->setName($request->request->get('name'), $book->getName());
+        $book->setShortDescription($request->request->get('short_description', $book->getShortDescription()));
         
         $image = $request->files->get('image');
         if($image) {
@@ -217,10 +219,11 @@ class BookController extends AbstractController
             $filesystem->remove([$fileUploader->getBookImageDirectory() . '/' . $oldImage]);
         }
 
-        $book->setDatePublished($request->request->get('datePublished'));
+        $book->setDatePublished($request->request->get('date_published', $book->getDatePublished()));
 
-        $authorIds = array_map('intval', explode(',', $request->request->get('authors')));
+        $authorIds = $request->request->get('authors');
         if($authorIds) {
+            $authorIds = array_map('intval', explode(',', $authorIds));
             $authors = $entityManager
                 ->getRepository(Author::class)
                 ->findBy(array('id' => $authorIds));
@@ -238,16 +241,6 @@ class BookController extends AbstractController
             ];
         }
 
-        // $data =  [
-        //     'id' => $book->getId(),
-        //     'name' => $book->getName(),
-        //     'short_description' => $book->getShortDescription(),
-        //     'image' => $book->getImage(),
-        //     'date_published' => $book->getDatePublished(),
-        //     'authors' => $authors,
-        // ];
-        // var_dump($data); die;
-    
         $entityManager->persist($book);
         $entityManager->flush();
     
