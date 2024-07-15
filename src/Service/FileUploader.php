@@ -19,6 +19,11 @@ class FileUploader
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
+        if(strlen($fileName) > 255) {
+            $fileName = trim(substr($fileName, 0, 25), '-') 
+            . '-' . uniqid() . '.' . $file->guessExtension();
+        }
+
         try {
             $file->move($this->getBookImageDirectory(), $fileName);
         } catch (FileException $e) {
