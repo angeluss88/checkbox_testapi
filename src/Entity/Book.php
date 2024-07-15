@@ -110,7 +110,7 @@ class Book
         return $this;
     }
 
-    public function syncAuthors($authors): static
+    public function syncAuthors(Author ...$authors): static
     {
         foreach ($authors as $author) {
             if (!$this->authors->contains($author)) {

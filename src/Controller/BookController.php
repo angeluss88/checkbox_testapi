@@ -225,7 +225,7 @@ class BookController extends AbstractController
                 ->getRepository(Author::class)
                 ->findBy(array('id' => $authorIds));
 
-            $book->syncAuthors($authors);
+            $book->syncAuthors(...$authors);
         }
 
         $authors = [];
