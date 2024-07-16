@@ -14,8 +14,8 @@ class AuthorWithoutBooksReturnDTO
     {
         $return = new self;
         $return->id = $author->getId();
-        $return->lastname = $author->getFirstname();
-        $return->firstname = $author->getLastname();
+        $return->firstname = $author->getFirstname();
+        $return->lastname = $author->getLastname();
         $return->secondaryname = $author->getSecondaryname();
         
         return $return;
