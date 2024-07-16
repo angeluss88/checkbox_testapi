@@ -24,7 +24,6 @@ class AuthorCreateRequest extends BaseRequest
     )]
     protected string $lastname;
 
-    #[Assert\NotBlank([])]
     #[Assert\Length(
         min: 2,
         max: 255,
