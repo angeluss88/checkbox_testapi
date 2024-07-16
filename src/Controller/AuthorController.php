@@ -30,13 +30,13 @@ class AuthorController extends AbstractController
     #[OA\Parameter(
         name: 'pageSize',
         in: 'query',
-        description: 'The amount of authors per page',
+        description: 'The amount of authors per page (default 5)',
         schema: new OA\Schema(type: 'string')
     )]
     #[OA\Parameter(
         name: 'page',
         in: 'query',
-        description: 'The page number',
+        description: 'The page number (default 1)',
         schema: new OA\Schema(type: 'string')
     )]
     #[OA\Tag(name: 'Authors')]

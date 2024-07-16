@@ -28,13 +28,13 @@ class BookController extends AbstractController
     #[OA\Parameter(
         name: 'pageSize',
         in: 'query',
-        description: 'The amount of books per page',
+        description: 'The amount of books per page (default 5)',
         schema: new OA\Schema(type: 'string')
     )]
     #[OA\Parameter(
         name: 'page',
         in: 'query',
-        description: 'The page number',
+        description: 'The page number (default 1)',
         schema: new OA\Schema(type: 'string')
     )]
     #[OA\Tag(name: 'Books')]
@@ -97,6 +97,18 @@ class BookController extends AbstractController
             type: 'array',
             items: new OA\Items(ref: new Model(type: BookWithAuthorsReturnDTO::class))
         )
+    )]
+    #[OA\Parameter(
+        name: 'pageSize',
+        in: 'query',
+        description: 'The amount of books per page (default 5)',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'page',
+        in: 'query',
+        description: 'The page number (default 1)',
+        schema: new OA\Schema(type: 'string')
     )]
     #[OA\Tag(name: 'Books')]
     public function search(

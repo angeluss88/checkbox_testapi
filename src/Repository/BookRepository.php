@@ -21,14 +21,15 @@ class BookRepository extends ServiceEntityRepository
         */
        public function findByAuthorAndPaginate($author, $page = 1, $pageSize = 5): array
        {
-           return $this->createQueryBuilder('b')
-           ->innerJoin('b.authors', 'a', 'WITH', 'a.lastname = :author')
-           ->setParameter('author', $author)
-           ->orderBy('b.id', 'ASC')
-           ->setFirstResult($pageSize * ($page-1)) 
-           ->setMaxResults($pageSize)
-           ->getQuery()
-           ->getResult();
+            return $this->createQueryBuilder('b')
+                ->innerJoin('b.authors', 'a')
+                ->where('a.lastname LIKE :author')
+                ->setParameter('author', '%' . $author . '%')
+                ->orderBy('b.id', 'ASC')
+                ->setFirstResult($pageSize * ($page-1)) 
+                ->setMaxResults($pageSize)
+                ->getQuery()
+                ->getResult();
        }
 
        /**
@@ -36,12 +37,14 @@ class BookRepository extends ServiceEntityRepository
         */
         public function countdByAuthor($author): int
         {
-            return count($this->createQueryBuilder('b')
-            ->select('count(b.id)')
-            ->innerJoin('b.authors', 'a', 'WITH', 'a.lastname = :author')
-            ->setParameter('author', $author)
-            ->getQuery()
-            ->getResult());
+            return $this->createQueryBuilder('b')
+                ->select('count(b.id)')
+                ->innerJoin('b.authors', 'a')
+                ->where('a.lastname LIKE :author')
+                ->setParameter('author', '%' . $author . '%')
+                ->getQuery()
+                ->getSingleScalarResult();
         }
+        
 
 }
