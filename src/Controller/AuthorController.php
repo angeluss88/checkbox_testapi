@@ -23,8 +23,29 @@ class AuthorController extends AbstractController
         response: 200,
         description: 'Returns the authors',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(ref: new Model(type: AuthorWithBooksReturnDTO::class))
+            type: 'object',
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    type: 'array',
+                    items: new OA\Items(ref: new Model(type: AuthorWithBooksReturnDTO::class))
+                ),
+                new OA\Property(
+                    property: 'count',
+                    type: 'integer',
+                    example: 1
+                ),
+                new OA\Property(
+                    property: 'pages',
+                    type: 'integer',
+                    example: 1
+                ),
+                new OA\Property(
+                    property: 'page',
+                    type: 'integer',
+                    example: 1
+                )
+            ]
         )
     )]
     #[OA\Parameter(

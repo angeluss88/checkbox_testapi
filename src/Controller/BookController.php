@@ -19,10 +19,31 @@ class BookController extends AbstractController
     #[Route('/', methods: ['GET'])]
     #[OA\Response(
         response: 200,
-        description: 'Returns the books',
+        description: 'Returns the authors',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(ref: new Model(type: BookWithAuthorsReturnDTO::class))
+            type: 'object',
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    type: 'array',
+                    items: new OA\Items(ref: new Model(type: BookWithAuthorsReturnDTO::class))
+                ),
+                new OA\Property(
+                    property: 'count',
+                    type: 'integer',
+                    example: 1
+                ),
+                new OA\Property(
+                    property: 'pages',
+                    type: 'integer',
+                    example: 1
+                ),
+                new OA\Property(
+                    property: 'page',
+                    type: 'integer',
+                    example: 1
+                )
+            ]
         )
     )]
     #[OA\Parameter(
@@ -92,10 +113,31 @@ class BookController extends AbstractController
     #[Route('/{author}', methods: ['GET'])]
     #[OA\Response(
         response: 200,
-        description: 'Returns the books by author lastname',
+        description: 'Returns the authors',
         content: new OA\JsonContent(
-            type: 'array',
-            items: new OA\Items(ref: new Model(type: BookWithAuthorsReturnDTO::class))
+            type: 'object',
+            properties: [
+                new OA\Property(
+                    property: 'data',
+                    type: 'array',
+                    items: new OA\Items(ref: new Model(type: BookWithAuthorsReturnDTO::class))
+                ),
+                new OA\Property(
+                    property: 'count',
+                    type: 'integer',
+                    example: 1
+                ),
+                new OA\Property(
+                    property: 'pages',
+                    type: 'integer',
+                    example: 1
+                ),
+                new OA\Property(
+                    property: 'page',
+                    type: 'integer',
+                    example: 1
+                )
+            ]
         )
     )]
     #[OA\Parameter(
